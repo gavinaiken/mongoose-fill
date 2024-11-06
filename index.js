@@ -1,8 +1,5 @@
-'use strict'
-
-var mongoose = require('mongoose');
-var async = require('async')
-var util = require('util')
+import mongoose from 'mongoose';
+import async from 'async';
 
 var getArgsWithOptions = function(__fill){
   var args = [],
@@ -196,23 +193,24 @@ mongoose.Query.prototype.exec = function (op, cb) {
   var p = getPromise(cb)
   var promise = p.promise, onResolve = p.onResolve, resolve = p.resolve
   
-  _exec.call(this, op, function (err, docs) {
+  _exec.call(this, op)
+    .then((docs) => {
 
-    if (err || !docs) {
-      resolve(err, docs)
+    if (!docs) {
+      resolve(null, docs)
     } else {
 
       async.mapSeries(__fillsSequence, function(__fills, cb){
 
         async.map(__fills, function(__fill, cb){
-          var useMultiWithSingle = !util.isArray(docs) && !__fill.fill.value && __fill.fill.multi
+          var useMultiWithSingle = !Array.isArray(docs) && !__fill.fill.value && __fill.fill.multi
 
           if (useMultiWithSingle){
             docs = [docs]
           }
 
           // TODO: make this also if there is only multi methods when one doc
-          if (util.isArray(docs)){
+          if (Array.isArray(docs)){
             var args = getArgsWithOptions(__fill)
 
             if (__fill.fill.multi && !__fill.fillEach){
@@ -255,7 +253,7 @@ mongoose.Query.prototype.exec = function (op, cb) {
                 if (results && results !== docs){
 
                   // convert object map to array in right order
-                  if (!util.isArray(results)){
+                  if (!Array.isArray(results)){
                     results = ids.map(function(id){
                       return results[id]
                     })
@@ -311,6 +309,9 @@ mongoose.Query.prototype.exec = function (op, cb) {
         resolve(err, docs)
       })
     }
+  })
+  .catch((err) => {
+    resolve(err, null)
   });
 
   return promise
@@ -447,4 +448,4 @@ mongoose.Model.prototype.filled = function(){
   this.fill.apply(this, args)
 }
 
-module.exports = mongoose
+export default mongoose;

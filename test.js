@@ -1,6 +1,8 @@
 import test from 'tape';
-import mongoose from './index';
-mongoose.connect('mongodb://localhost/mongoose_fill_test');
+import mongoose from './index.js';
+
+let opts = process.env.MONGO_NODE_PASSWORD ? { user: 'node', pass: process.env.MONGO_NODE_PASSWORD } : {}
+mongoose.connect('mongodb://localhost/mongoose_fill_test', opts);
 
 const userSchema = new mongoose.Schema({
   _id: 'number',
@@ -75,10 +77,10 @@ userSchema.fill('friend', function (callback) {
   callback(null, val)
 })
 
-userSchema.fill('nested.dude', function (callback) {
-  this.db.model('User')
+userSchema.fill('nested.dude', async function (callback) {
+  const dude = await this.db.model('User')
         .findOne({_id: this.dude})
-        .exec(callback)
+  callback(null, dude)
 })
 
 const User = mongoose.model('User', userSchema)
@@ -91,7 +93,7 @@ test('setup', async t => {
   ];
 
   try {
-    await User.remove({});
+    await User.deleteMany({});
     await User.create(usersData);
     t.end();
   } catch (err) {
@@ -111,13 +113,12 @@ test('fill one property: purchases', async t => {
   }
 })
 
-test('fill one property: purchases (exec callback)', async t => {
-  User.findById(1).fill('purchases').exec((err, user) => {
-    t.ok(user.name == 'Alex', 'user name is ok');
-    t.ok(!!user.purchases, 'user purchases present');
-    t.ok(user.purchases[0].amount == 5, 'first purchase amount is ok');
-    t.end();
-  });
+test('fill one property: purchases', async t => {
+  let user = await User.findById(1).fill('purchases');
+  t.ok(user.name == 'Alex', 'user name is ok');
+  t.ok(!!user.purchases, 'user purchases present');
+  t.ok(user.purchases[0].amount == 5, 'first purchase amount is ok');
+  t.end();
 });
 
 test('fill multiple properties with select: purchases, actions', async t => {

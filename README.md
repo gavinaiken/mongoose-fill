@@ -9,6 +9,12 @@ This just gives you a simple and easy to use API for:
 - implementing db joins without keeping refs to related objects (with refs  you can use `populate`)
 - joining mongoose object with any kind of data (with any async service - other db or web service)
 
+## version support - breaking changes
+
+Version 2.0.0 of this library is written as an ESM, and works with mongoose 7.0.0 and above, and requires node 20.0.0 or above.
+
+For compatibility with mongoose < 7 and node < 20 use version 1.x.
+
 ## api use cases - learn by example
 
 basic use case fills single filed
