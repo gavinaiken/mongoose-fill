@@ -1,6 +1,6 @@
-# mongoose-fill
+# mongoose-fill-promises
 
-mongoose-fill is [mongoose.js](http://mongoosejs.com/) add-on that adds simple api for virtual async fields.
+mongoose-fill-promises is [mongoose.js](http://mongoosejs.com/) add-on that adds simple api for virtual async fields.
 
 ## why?
 
@@ -15,16 +15,18 @@ Version 2.0.0 of this library is written as an ESM, and works with mongoose 7.0.
 
 For compatibility with mongoose < 7 and node < 20 use version 1.x.
 
+This is a fork of `mongoose-fill` which has been archived. Mongoose 7 dropped support for the callback api on queries so this version was modified to use promises.
+
 ## api use cases - learn by example
 
 basic use case fills single filed
 
 ```javascript
-// import of 'mongoose-fill' patches mongoose and returns mongoose object, so you can do:
-var mongoose = require('mongoose-fill')
+// import of 'mongoose-fill-promises' patches mongoose and returns mongoose object, so you can do:
+var mongoose = require('mongoose-fill-promises')
  ...
 // note you should set virtual properties options 
-// on you schema to get it mongoose-fill work
+// on you schema to get it mongoose-fill-promises work
 var myParentSchema = new Schema({
     ....
 }, {
@@ -108,7 +110,7 @@ Also check the code of test for more use cases
 
 ### Installation
 
-npm install mongoose-fill
+npm install mongoose-fill-promises
 
 
 ### Run tests

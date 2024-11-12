@@ -1,5 +1,5 @@
 {
-  "name": "mongoose-fill",
+  "name": "mongoose-fill-promises",
   "version": "2.0.0",
   "description": "Mongoose.js add-on that adds virtual (temporary) async fileds API",
   "main": "index.js",
@@ -17,7 +17,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/whitecolor/mongoose-fill.git"
+    "url": "git+ssh://git@github.com/gavinaiken/mongoose-fill.git"
   },
   "keywords": [
     "mongoosejs",
@@ -27,9 +27,9 @@
   "author": "whitecolor",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/whitecolor/mongoose-fill/issues"
+    "url": "https://github.com/gavinaiken/mongoose-fill/issues"
   },
-  "homepage": "https://github.com/whitecolor/mongoose-fill#readme",
+  "homepage": "https://github.com/gavinaiken/mongoose-fill#readme",
   "devDependencies": {
     "mongoose": "^8.8.0",
     "tape": "^5.9.0"
